@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import numpy as np
 
@@ -34,7 +34,7 @@ class PCA(AbstractModel, ABC):
 
 class PCAEign(PCA):
     """
-    PCA implementation using Eigendecomposition
+    PCA's implementation using Eigendecomposition
 
     Steps:
         1 - Compute the covariance C = (X^T X)/(n-1)
@@ -43,16 +43,16 @@ class PCAEign(PCA):
             - Q is the matrix of the eigenvectors (each column is an eigenvector) - Principal axes
             - A is the diagonal matrix with the eigenvalues lambda_i (sorted in decreasing order)
 
-        The principal components are found by XV, where the j-th one is the j-th columnn of the resulting matrix.
+        The principal components are found by XV, where the j-th one is the j-th column of the resulting matrix.
         The coordinates of the i-th data point in the new PC space are given by the i-th row of XV.
 
     Used links:
         - https://stats.stackexchange.com/a/134283
     """
 
-    def fit(self, X, scale=False):
+    def fit(self, X, y=None, *args, **kwargs):
         """
-        Finds the principal axes and their explained variance
+        Finds the principal axes, and their explained variance
         :param X: Numpy array
         :return:
         """
@@ -73,7 +73,7 @@ class PCAEign(PCA):
 
 class PCASVD(PCA):
     """
-    PCA implementation using Singular Values Decomposition
+    PCA's implementation using Singular Values Decomposition
 
     Steps:
         1 - Decompose X using SVD X = UEV^T
@@ -86,13 +86,13 @@ class PCASVD(PCA):
         Which means that the singular values are principal directions and the singular values, are
         related to the covariance matrix via lambda_i = s^2_i/(n-1)
 
-        The principal components are found by XV = UEV^TV = UE
+        The principal components are found by XU = VEU^TU = VE
 
     Used links:
         - https://stats.stackexchange.com/a/134283
     """
 
-    def fit(self, X):
+    def fit(self, X, y=None, *args, **kwargs):
         """
         Finds the principal axes and their explained variance
         :param X: Numpy array

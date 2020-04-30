@@ -14,7 +14,7 @@ class TestPCAEigen(unittest.TestCase):
         X_reduced = PCA(n_components=k).fit(iris.data)
         X_reduced_eig = PCAEign(n_components=k).fit(iris.data)
         comp_diff = np.round(np.absolute(X_reduced.components_) - np.absolute(X_reduced_eig.components), 3)
-        self.assertTrue(np.array_equal(comp_diff, np.zeros([k,p])))
+        self.assertTrue(np.array_equal(comp_diff, np.zeros([k, p])))
         var_diff = np.round(X_reduced.explained_variance_ - X_reduced_eig.explained_variance, 3)
         self.assertTrue(np.array_equal(var_diff, np.zeros(k)))
         return
@@ -37,7 +37,6 @@ class TestPCAEigen(unittest.TestCase):
         return
 
 
-
 class TestPCASVD(unittest.TestCase):
     def test_fit_equal_sklearn(self):
         iris = datasets.load_iris()
@@ -46,14 +45,13 @@ class TestPCASVD(unittest.TestCase):
         X_reduced = PCA(n_components=k).fit(iris.data)
         X_reduced_svd = PCASVD(n_components=k).fit(iris.data)
         comp_diff = np.round(np.absolute(X_reduced.components_) - np.absolute(X_reduced_svd.components), 3)
-        self.assertTrue(np.array_equal(comp_diff, np.zeros([k,p])))
+        self.assertTrue(np.array_equal(comp_diff, np.zeros([k, p])))
         var_diff = np.round(X_reduced.explained_variance_ - X_reduced_svd.explained_variance, 3)
         self.assertTrue(np.array_equal(var_diff, np.zeros(k)))
         return
 
     def test_transform_equal_sklearn(self):
         iris = datasets.load_iris()
-
         k = 2
         PCA_sk = PCA(n_components=k, whiten=False).fit(iris.data)
         PCA_eign = PCASVD(n_components=k).fit(iris.data)
